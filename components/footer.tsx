@@ -26,7 +26,7 @@ export function Footer() {
             <span className="text-sm text-muted-foreground mr-2">Connect:</span>
             <Button variant="ghost" size="sm" asChild className="h-8 w-8 p-0">
               <a
-                href="https://github.com"
+                href="https://github.com/BCAPATHSHALA/PersonaAI"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="GitHub"
@@ -36,7 +36,7 @@ export function Footer() {
             </Button>
             <Button variant="ghost" size="sm" asChild className="h-8 w-8 p-0">
               <a
-                href="https://twitter.com"
+                href="https://x.com/manojofficialmj"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Twitter"
@@ -46,7 +46,7 @@ export function Footer() {
             </Button>
             <Button variant="ghost" size="sm" asChild className="h-8 w-8 p-0">
               <a
-                href="https://linkedin.com"
+                href="https://www.linkedin.com/in/manojofficialmj/"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="LinkedIn"

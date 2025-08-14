@@ -15,17 +15,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import {
-  Sparkles,
-  Plus,
-  MessageSquare,
-  Trash2,
-  LogOut,
-  X,
-  Github,
-  Twitter,
-  Linkedin,
-} from "lucide-react";
+import { Sparkles, Plus, MessageSquare, Trash2, LogOut, X } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -259,60 +249,6 @@ export function ChatSidebar({ onClose }: ChatSidebarProps) {
 
       {/* Footer */}
       <div className="p-3 sm:p-4 border-t border-sidebar-border space-y-3 sm:space-y-4">
-        {/* Social Links */}
-        <div>
-          <p className="text-xs font-medium text-sidebar-foreground/80 uppercase tracking-wide mb-2">
-            Connect
-          </p>
-          <div className="flex gap-1 sm:gap-2">
-            <Button
-              variant="ghost"
-              size="sm"
-              asChild
-              className="text-sidebar-foreground/60 hover:text-sidebar-foreground h-8 w-8 p-0"
-            >
-              <a
-                href="https://github.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="GitHub"
-              >
-                <Github className="w-4 h-4" />
-              </a>
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              asChild
-              className="text-sidebar-foreground/60 hover:text-sidebar-foreground h-8 w-8 p-0"
-            >
-              <a
-                href="https://twitter.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Twitter"
-              >
-                <Twitter className="w-4 h-4" />
-              </a>
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              asChild
-              className="text-sidebar-foreground/60 hover:text-sidebar-foreground h-8 w-8 p-0"
-            >
-              <a
-                href="https://linkedin.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="LinkedIn"
-              >
-                <Linkedin className="w-4 h-4" />
-              </a>
-            </Button>
-          </div>
-        </div>
-
         {/* Actions */}
         <div>
           <AlertDialog>
