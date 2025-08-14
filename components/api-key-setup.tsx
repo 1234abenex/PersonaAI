@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -48,28 +48,59 @@ export function ApiKeySetup({
   currentApiKey,
 }: ApiKeySetupProps) {
   const [showApiKey, setShowApiKey] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting, isValid },
     watch,
+    setValue,
+    trigger,
   } = useForm<ApiKeyForm>({
     resolver: zodResolver(apiKeySchema),
     defaultValues: {
-      apiKey: currentApiKey,
+      apiKey: currentApiKey || "",
     },
     mode: "onChange",
   });
 
+  useEffect(() => {
+    if (isMounted && currentApiKey) {
+      setValue("apiKey", currentApiKey);
+      trigger("apiKey"); // Trigger validation after setting value
+    }
+  }, [isMounted, currentApiKey, setValue, trigger]);
+
   const apiKeyValue = watch("apiKey");
+  console.log("API key value:", apiKeyValue);
 
   const onSubmit = (data: ApiKeyForm) => {
     onApiKeySubmit(data.apiKey.trim());
   };
 
   const isValidFormat =
-    apiKeyValue && apiKeyValue.trim().length > 0 && !errors.apiKey;
+    isMounted && apiKeyValue && apiKeyValue.trim().length > 0 && !errors.apiKey;
+
+  if (!isMounted) {
+    return (
+      <div className="max-w-2xl mx-auto space-y-6">
+        <Card>
+          <CardContent className="p-6">
+            <div className="animate-pulse space-y-4">
+              <div className="h-4 bg-muted rounded w-3/4"></div>
+              <div className="h-10 bg-muted rounded"></div>
+              <div className="h-10 bg-muted rounded"></div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-2xl mx-auto space-y-6">
@@ -101,12 +132,19 @@ export function ApiKeySetup({
             <div className="space-y-2">
               <Label htmlFor="apiKey">Gemini API Key</Label>
               <div className="relative">
-                <Input
+                {/* <Input
                   id="apiKey"
                   type={showApiKey ? "text" : "password"}
                   placeholder="AIzaSyD... (39 characters)"
                   {...register("apiKey")}
                   className="pr-10"
+                /> */}
+                <input
+                  {...register("apiKey")}
+                  id="apiKey"
+                  type={showApiKey ? "text" : "password"}
+                  placeholder="AIzaSyD... (39 characters)"
+                  className="w-full rounded-lg border border-gray-300 bg-gray-50 px-4 py-2 pr-12 text-sm text-gray-700 placeholder-gray-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 <Button
                   type="button"
