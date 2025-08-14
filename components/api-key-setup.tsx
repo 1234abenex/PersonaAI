@@ -77,7 +77,7 @@ export function ApiKeySetup({
   }, [isMounted, currentApiKey, setValue, trigger]);
 
   const apiKeyValue = watch("apiKey");
-  console.log("API key value:", apiKeyValue);
+  // console.log("API key value:", apiKeyValue);
 
   const onSubmit = (data: ApiKeyForm) => {
     onApiKeySubmit(data.apiKey.trim());
