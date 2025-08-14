@@ -157,10 +157,11 @@ export type PersonalityTone = "default" | "funny" | "advice" | "educational";
 export interface ChatMessage {
   id: string;
   content: string;
-  sender: "user" | "ai";
+  sender: "user" | "ai" | "system" | "assistant" | "devloper";
   timestamp: Date;
   personaId?: string;
   imageUrl?: string;
+  reaction?: "like" | "dislike" | null;
 }
 
 export interface Category {

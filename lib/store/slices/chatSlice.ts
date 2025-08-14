@@ -6,6 +6,7 @@ interface ChatState {
   isLoading: boolean;
   currentChatId: string | null;
   chatHistory: Record<string, ChatMessage[]>;
+  regeneratingMessageId: string | null;
 }
 
 const initialState: ChatState = {
@@ -13,6 +14,7 @@ const initialState: ChatState = {
   isLoading: false,
   currentChatId: null,
   chatHistory: {},
+  regeneratingMessageId: null,
 };
 
 const chatSlice = createSlice({
@@ -34,6 +36,54 @@ const chatSlice = createSlice({
     },
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.isLoading = action.payload;
+    },
+    updateMessageReaction: (
+      state,
+      action: PayloadAction<{
+        messageId: string;
+        reaction: "like" | "dislike" | null;
+      }>
+    ) => {
+      const { messageId, reaction } = action.payload;
+      const updateMessage = (messages: ChatMessage[]) => {
+        const messageIndex = messages.findIndex((msg) => msg.id === messageId);
+        if (messageIndex !== -1) {
+          messages[messageIndex] = {
+            ...messages[messageIndex],
+            reaction,
+          };
+        }
+      };
+
+      updateMessage(state.messages);
+      if (state.currentChatId && state.chatHistory[state.currentChatId]) {
+        updateMessage(state.chatHistory[state.currentChatId]);
+      }
+    },
+    setRegeneratingMessage: (state, action: PayloadAction<string | null>) => {
+      state.regeneratingMessageId = action.payload;
+    },
+    replaceMessage: (
+      state,
+      action: PayloadAction<{ oldMessageId: string; newMessage: ChatMessage }>
+    ) => {
+      const { oldMessageId, newMessage } = action.payload;
+      const replaceInArray = (messages: ChatMessage[]) => {
+        const messageIndex = messages.findIndex(
+          (msg) => msg.id === oldMessageId
+        );
+        if (messageIndex !== -1) {
+          messages[messageIndex] = {
+            ...newMessage,
+            timestamp: new Date(newMessage.timestamp),
+          };
+        }
+      };
+
+      replaceInArray(state.messages);
+      if (state.currentChatId && state.chatHistory[state.currentChatId]) {
+        replaceInArray(state.chatHistory[state.currentChatId]);
+      }
     },
     clearMessages: (state) => {
       state.messages = [];
@@ -80,6 +130,9 @@ export const {
   loadChat,
   deleteChat,
   clearAllHistory,
+  updateMessageReaction,
+  setRegeneratingMessage,
+  replaceMessage,
 } = chatSlice.actions;
 
 export default chatSlice.reducer;

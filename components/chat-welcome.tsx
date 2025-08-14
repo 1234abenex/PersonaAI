@@ -7,13 +7,16 @@ import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Sparkles, MessageCircle, Zap, Shield } from "lucide-react";
 import type { ChatMessage } from "@/types/personas.types";
+import { useState } from "react";
 
 export function ChatWelcome() {
   const dispatch = useAppDispatch();
   const { selectedPersonas, personalityTone } = useAppSelector(
     (state) => state.persona
   );
-  const { currentChatId } = useAppSelector((state) => state.chat);
+  const { currentChatId, chatHistory } = useAppSelector((state) => state.chat);
+  const { apiKey } = useAppSelector((state) => state.settings);
+  const [loadingStarter, setLoadingStarter] = useState<string | null>(null);
 
   const suggestions = [
     "Tell me about your expertise",
@@ -22,22 +25,84 @@ export function ChatWelcome() {
     "What are your thoughts on current trends?",
   ];
 
-  const handleSuggestionClick = (suggestion: string) => {
-    // Start new chat if none exists
-    if (!currentChatId) {
-      const chatId = `chat-${Date.now()}`;
-      dispatch(startNewChat(chatId));
+  const handleSuggestionClick = async (suggestion: string) => {
+    if (!apiKey) {
+      console.error("No API key available");
+      return;
     }
 
-    // Add user message
-    const userMessage: ChatMessage = {
-      id: `msg-${Date.now()}`,
-      content: suggestion,
-      sender: "user",
-      timestamp: new Date(),
-    };
+    setLoadingStarter(suggestion);
 
-    dispatch(addMessage(userMessage));
+    try {
+      // Start new chat if none exists
+      let chatId = currentChatId;
+      if (!chatId) {
+        chatId = `chat-${Date.now()}`;
+        dispatch(startNewChat(chatId));
+      }
+
+      // Add user message
+      const userMessage: ChatMessage = {
+        id: `msg-${Date.now()}`,
+        content: suggestion,
+        sender: "user",
+        timestamp: new Date(),
+      };
+
+      dispatch(addMessage(userMessage));
+
+      // Get conversation history for context
+      const conversationHistory = chatHistory[chatId] || [];
+
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          message: suggestion,
+          personas: selectedPersonas,
+          tone: personalityTone,
+          apiKey,
+          conversationHistory,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      if (data.error) {
+        throw new Error(data.error);
+      }
+
+      // Add AI response
+      const aiMessage: ChatMessage = {
+        id: `msg-${Date.now()}-ai`,
+        content: data.response,
+        sender: "ai",
+        timestamp: new Date(),
+      };
+
+      dispatch(addMessage(aiMessage));
+    } catch (error) {
+      console.error("Error generating response:", error);
+
+      // Add error message
+      const errorMessage: ChatMessage = {
+        id: `msg-${Date.now()}-error`,
+        content:
+          "Sorry, I encountered an error while processing your request. Please try again.",
+        sender: "ai",
+        timestamp: new Date(),
+      };
+
+      dispatch(addMessage(errorMessage));
+    } finally {
+      setLoadingStarter(null);
+    }
   };
 
   return (
@@ -158,10 +223,21 @@ export function ChatWelcome() {
               {suggestions.map((suggestion, index) => (
                 <div
                   key={index}
-                  className="p-3 bg-muted rounded-lg cursor-pointer hover:bg-muted/80 transition-colors"
-                  onClick={() => handleSuggestionClick(suggestion)}
+                  className={`p-3 bg-muted rounded-lg cursor-pointer hover:bg-muted/80 transition-colors relative ${
+                    loadingStarter === suggestion
+                      ? "opacity-50 cursor-not-allowed"
+                      : ""
+                  }`}
+                  onClick={() =>
+                    !loadingStarter && handleSuggestionClick(suggestion)
+                  }
                 >
                   <p className="text-sm text-foreground">{suggestion}</p>
+                  {loadingStarter === suggestion && (
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="w-4 h-4 border-2 border-orange-500 border-t-transparent rounded-full animate-spin" />
+                    </div>
+                  )}
                 </div>
               ))}
             </div>

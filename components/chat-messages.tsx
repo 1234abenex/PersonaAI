@@ -1,11 +1,17 @@
 "use client";
 
-import { useAppSelector } from "@/lib/hooks/redux";
+import { useAppSelector, useAppDispatch } from "@/lib/hooks/redux";
+import {
+  updateMessageReaction,
+  setRegeneratingMessage,
+  replaceMessage,
+} from "@/lib/store/slices/chatSlice";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Copy, ThumbsUp, ThumbsDown, RotateCcw } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 import type { ChatMessage } from "@/types/personas.types";
 
 interface ChatMessagesProps {
@@ -14,10 +20,111 @@ interface ChatMessagesProps {
 }
 
 export function ChatMessages({ messages, isLoading }: ChatMessagesProps) {
-  const { selectedPersonas } = useAppSelector((state) => state.persona);
+  const dispatch = useAppDispatch();
+  const { selectedPersonas, personalityTone } = useAppSelector(
+    (state) => state.persona
+  );
+  const { regeneratingMessageId } = useAppSelector((state) => state.chat);
+  const { apiKey } = useAppSelector((state) => state.settings);
+  const { toast } = useToast();
 
-  const handleCopyMessage = (content: string) => {
-    navigator.clipboard.writeText(content);
+  const handleCopyMessage = async (content: string) => {
+    try {
+      await navigator.clipboard.writeText(content);
+      toast({
+        title: "Copied!",
+        description: "Message copied to clipboard",
+      });
+    } catch (err) {
+      // Fallback for older browsers
+      const textArea = document.createElement("textarea");
+      textArea.value = content;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand("copy");
+      document.body.removeChild(textArea);
+      toast({
+        title: "Copied!",
+        description: "Message copied to clipboard",
+      });
+    }
+  };
+
+  const handleReaction = (messageId: string, reaction: "like" | "dislike") => {
+    const currentMessage = messages.find((msg) => msg.id === messageId);
+    const newReaction = currentMessage?.reaction === reaction ? null : reaction;
+
+    dispatch(updateMessageReaction({ messageId, reaction: newReaction }));
+
+    if (newReaction) {
+      toast({
+        title: newReaction === "like" ? "👍 Liked" : "👎 Disliked",
+        description: `You ${newReaction}d this message`,
+      });
+    } else {
+      toast({
+        title: "Reaction removed",
+        description: "Your reaction has been removed",
+      });
+    }
+  };
+
+  const handleRegenerate = async (messageId: string) => {
+    const messageIndex = messages.findIndex((msg) => msg.id === messageId);
+    if (messageIndex === -1 || messageIndex === 0) return;
+
+    const previousMessage = messages[messageIndex - 1];
+    if (previousMessage.sender !== "user") return;
+
+    dispatch(setRegeneratingMessage(messageId));
+
+    try {
+      const conversationHistory = messages.slice(0, messageIndex - 1);
+
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          message: previousMessage.content,
+          personas: selectedPersonas,
+          tone: personalityTone,
+          apiKey,
+          conversationHistory,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to regenerate response");
+      }
+
+      const data = await response.json();
+
+      const newMessage: ChatMessage = {
+        id: Date.now().toString(),
+        content: data.response,
+        sender: "ai",
+        timestamp: new Date(),
+        personaId: selectedPersonas[0]?.id,
+      };
+
+      dispatch(replaceMessage({ oldMessageId: messageId, newMessage }));
+
+      toast({
+        title: "Regenerated!",
+        description: "New response generated successfully",
+      });
+    } catch (error) {
+      console.error("Error regenerating message:", error);
+      toast({
+        title: "Error",
+        description: "Failed to regenerate response. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      dispatch(setRegeneratingMessage(null));
+    }
   };
 
   const getPersonaForMessage = (message: ChatMessage) => {
@@ -112,16 +219,26 @@ export function ChatMessages({ messages, isLoading }: ChatMessagesProps) {
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="h-8 px-2"
+                    className={`h-8 px-2 transition-colors ${
+                      message.reaction === "like"
+                        ? "text-green-600 bg-green-50 hover:bg-green-100"
+                        : "hover:text-green-600"
+                    }`}
                     title="Like"
+                    onClick={() => handleReaction(message.id, "like")}
                   >
                     <ThumbsUp className="w-3 h-3" />
                   </Button>
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="h-8 px-2"
+                    className={`h-8 px-2 transition-colors ${
+                      message.reaction === "dislike"
+                        ? "text-red-600 bg-red-50 hover:bg-red-100"
+                        : "hover:text-red-600"
+                    }`}
                     title="Dislike"
+                    onClick={() => handleReaction(message.id, "dislike")}
                   >
                     <ThumbsDown className="w-3 h-3" />
                   </Button>
@@ -130,8 +247,16 @@ export function ChatMessages({ messages, isLoading }: ChatMessagesProps) {
                     size="sm"
                     className="h-8 px-2"
                     title="Regenerate"
+                    onClick={() => handleRegenerate(message.id)}
+                    disabled={regeneratingMessageId === message.id}
                   >
-                    <RotateCcw className="w-3 h-3" />
+                    <RotateCcw
+                      className={`w-3 h-3 ${
+                        regeneratingMessageId === message.id
+                          ? "animate-spin"
+                          : ""
+                      }`}
+                    />
                   </Button>
                 </div>
               </div>
