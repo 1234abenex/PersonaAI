@@ -1,5 +1,6 @@
 export interface Persona {
   id: string;
+  categories: string[];
   basic_information: {
     name: string;
     nickname: string;
@@ -159,14 +160,7 @@ export interface ChatMessage {
   sender: "user" | "ai";
   timestamp: Date;
   personaId?: string;
-}
-
-export interface ChatState {
-  messages: ChatMessage[];
-  selectedPersonas: Persona[];
-  personalityTone: PersonalityTone;
-  isLoading: boolean;
-  apiKey: string;
+  imageUrl?: string;
 }
 
 export interface Category {
