@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -15,17 +15,25 @@ const apiKeySchema = z.object({
   apiKey: z
     .string()
     .min(1, "API key is required")
-    .regex(
-      /^AIza[0-9A-Za-z-_]{35}$/,
-      "Please enter a valid Gemini API key (should start with 'AIza' and be 39 characters long)"
-    )
-    .or(
-      z
-        .string()
-        .min(30, "API key must be at least 30 characters long")
-        .max(50, "API key seems too long")
-        .regex(/^[A-Za-z0-9\-_]+$/, "API key contains invalid characters")
-    ),
+    .refine((key) => {
+      const trimmedKey = key.trim();
+
+      // Check if it's a Gemini API key (starts with AIza and is around 39 characters)
+      if (trimmedKey.startsWith("AIza")) {
+        return (
+          trimmedKey.length >= 35 &&
+          trimmedKey.length <= 45 &&
+          /^[A-Za-z0-9\-_]+$/.test(trimmedKey)
+        );
+      }
+
+      // For other API keys, check general format
+      return (
+        trimmedKey.length >= 20 &&
+        trimmedKey.length <= 100 &&
+        /^[A-Za-z0-9\-_.]+$/.test(trimmedKey)
+      );
+    }, "Please enter a valid API key. Gemini keys start with 'AIza' and are typically 39 characters long."),
 });
 
 type ApiKeyForm = z.infer<typeof apiKeySchema>;
@@ -44,26 +52,24 @@ export function ApiKeySetup({
   const {
     register,
     handleSubmit,
-    reset,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, isValid },
+    watch,
   } = useForm<ApiKeyForm>({
     resolver: zodResolver(apiKeySchema),
     defaultValues: {
-      apiKey: currentApiKey || "",
+      apiKey: currentApiKey,
     },
+    mode: "onChange",
   });
 
-  // Reset the form when the current API key changes
-  useEffect(() => {
-    if (currentApiKey) {
-      reset({ apiKey: currentApiKey });
-    }
-  }, [currentApiKey, reset]);
+  const apiKeyValue = watch("apiKey");
 
   const onSubmit = (data: ApiKeyForm) => {
-    console.log("API key submitted:", data.apiKey);
-    onApiKeySubmit(data.apiKey);
+    onApiKeySubmit(data.apiKey.trim());
   };
+
+  const isValidFormat =
+    apiKeyValue && apiKeyValue.trim().length > 0 && !errors.apiKey;
 
   return (
     <div className="max-w-2xl mx-auto space-y-6">
@@ -98,7 +104,7 @@ export function ApiKeySetup({
                 <Input
                   id="apiKey"
                   type={showApiKey ? "text" : "password"}
-                  placeholder="Enter your Gemini API key..."
+                  placeholder="AIzaSyD... (39 characters)"
                   {...register("apiKey")}
                   className="pr-10"
                 />
@@ -121,12 +127,18 @@ export function ApiKeySetup({
                   {errors.apiKey.message}
                 </p>
               )}
+              {isValidFormat && (
+                <p className="text-sm text-green-600 flex items-center gap-1">
+                  <span className="text-green-500">✓</span> API key format looks
+                  good
+                </p>
+              )}
             </div>
 
             <Button
               type="submit"
-              disabled={isSubmitting}
-              className="w-full bg-orange-500 hover:bg-orange-600 text-white"
+              disabled={isSubmitting || !isValid}
+              className="w-full bg-orange-500 hover:bg-orange-600 text-white disabled:opacity-50"
             >
               {isSubmitting ? "Saving..." : "Save API Key"}
             </Button>
@@ -148,6 +160,17 @@ export function ApiKeySetup({
                 Get API Key <ExternalLink className="w-4 h-4" />
               </a>
             </Button>
+          </div>
+
+          <div className="mt-4 p-3 bg-blue-50 dark:bg-blue-950/20 rounded-lg border border-blue-200 dark:border-blue-800">
+            <h5 className="text-sm font-medium text-blue-900 dark:text-blue-100 mb-1">
+              API Key Format
+            </h5>
+            <p className="text-xs text-blue-700 dark:text-blue-300">
+              Gemini API keys typically start with "AIza" and are 39 characters
+              long. Other API key formats are also supported as long as they
+              contain valid characters.
+            </p>
           </div>
         </CardContent>
       </Card>
