@@ -124,12 +124,12 @@ PersonaAI/
 │   ├── persona-setup.tsx  # Persona selection
 │   └── ...                # Other components
 ├── hooks/                 # Custom hooks
+│   ├── redux.ts           # Redux hooks
 │   ├── use-mobile.ts      # Mobile detection hook
 │   └── use-toast.ts       # Toast notification hook
 ├── lib/                   # Utilities and configurations
 │   ├── store/             # Redux store and slices
 │   ├── services/          # API services
-│   ├── hooks/redux.ts     # Redux hooks
 │   ├── data/              # Static data (personas)
 │   └── utils/             # Utility functions
 ├── types/                 # TypeScript type definitions
