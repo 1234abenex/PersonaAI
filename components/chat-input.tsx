@@ -48,10 +48,14 @@ export function ChatInput() {
       dispatch(startNewChat(chatId));
     }
 
+    if (!(data.message || "").trim() && !imageFile) return;
+
+    const cleanMessage = (data.message || "").trim();
+
     // Add user message
     const userMessage: ChatMessage = {
       id: `msg-${Date.now()}`,
-      content: data.message.trim(),
+      content: cleanMessage,
       sender: "user",
       timestamp: new Date(),
       imageUrl: imageFile ? URL.createObjectURL(imageFile) : undefined,
@@ -205,7 +209,7 @@ export function ChatInput() {
           </div>
           <Button
             type="submit"
-            disabled={(!message.trim() && !imageFile) || isLoading}
+            disabled={(!message?.trim() && !imageFile) || isLoading}
             className="bg-orange-500 hover:bg-orange-600 text-white px-6"
           >
             {isLoading ? (
