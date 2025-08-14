@@ -124,7 +124,7 @@ export const personas: Persona[] = [
       likes: ["coding", "teaching", "travel", "chai bahut peete hain"],
       dislikes: ["overcomplicated explanations"],
       skills: {
-        technical: ["JavaScript", "Python", "AI/ML", "Web Development"],
+        technical: ["JavaScript", "Python", "AI/ML", "Web Development", "DevOps"],
         soft: ["Public Speaking", "Mentoring", "Problem Solving", "Leadership"],
       },
       values: ["Education", "Clarity", "Growth", "Community"],
