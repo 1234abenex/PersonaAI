@@ -1,72 +1,63 @@
-"use client";
+"use client"
 
-import type React from "react";
+import type React from "react"
 
-import { useState, useRef } from "react";
-import { useForm } from "react-hook-form";
-import { useAppSelector, useAppDispatch } from "@/lib/hooks/redux";
-import {
-  addMessage,
-  setLoading,
-  startNewChat,
-} from "@/lib/store/slices/chatSlice";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Send, ImageIcon, Smile, AlertCircle } from "lucide-react";
-import type { ChatMessage } from "@/types/personas.types";
+import { useState, useRef } from "react"
+import { useForm } from "react-hook-form"
+import { useAppSelector, useAppDispatch } from "@/lib/hooks/redux"
+import { addMessage, setLoading, startNewChat } from "@/lib/store/slices/chatSlice"
+import { Button } from "@/components/ui/button"
+import { Textarea } from "@/components/ui/textarea"
+import { Alert, AlertDescription } from "@/components/ui/alert"
+import { Send, ImageIcon, Smile, AlertCircle } from "lucide-react"
+import type { ChatMessage } from "@/types/personas.types"
 
 interface ChatForm {
-  message: string;
+  message: string
 }
 
 export function ChatInput() {
-  const dispatch = useAppDispatch();
-  const { isLoading, currentChatId } = useAppSelector((state) => state.chat);
-  const { selectedPersonas, personalityTone } = useAppSelector(
-    (state) => state.persona
-  );
-  const { apiKey, temperature } = useAppSelector((state) => state.settings);
-  const [imageFile, setImageFile] = useState<File | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const dispatch = useAppDispatch()
+  const { isLoading, currentChatId } = useAppSelector((state) => state.chat)
+  const { selectedPersonas, personalityTone } = useAppSelector((state) => state.persona)
+  const { apiKey, temperature } = useAppSelector((state) => state.settings)
+  const [imageFile, setImageFile] = useState<File | null>(null)
+  const [error, setError] = useState<string | null>(null)
+  const [inputValue, setInputValue] = useState("")
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
-  const { register, handleSubmit, reset, watch } = useForm<ChatForm>({
+  const { register, handleSubmit, reset, setValue } = useForm<ChatForm>({
     defaultValues: { message: "" },
-  });
-
-  const message = watch("message");
+  })
 
   const onSubmit = async (data: ChatForm) => {
-    if (!data.message.trim() && !imageFile) return;
+    const messageText = data.message || inputValue || ""
+    if (!messageText.trim() && !imageFile) return
 
-    setError(null);
+    setError(null)
 
     // Start new chat if none exists
     if (!currentChatId) {
-      const chatId = `chat-${Date.now()}`;
-      dispatch(startNewChat(chatId));
+      const chatId = `chat-${Date.now()}`
+      dispatch(startNewChat(chatId))
     }
-
-    if (!(data.message || "").trim() && !imageFile) return;
-
-    const cleanMessage = (data.message || "").trim();
 
     // Add user message
     const userMessage: ChatMessage = {
       id: `msg-${Date.now()}`,
-      content: cleanMessage,
+      content: messageText.trim(),
       sender: "user",
       timestamp: new Date(),
       imageUrl: imageFile ? URL.createObjectURL(imageFile) : undefined,
-    };
+    }
 
-    dispatch(addMessage(userMessage));
-    reset();
-    setImageFile(null);
+    dispatch(addMessage(userMessage))
+    reset()
+    setInputValue("")
+    setImageFile(null)
 
     // Set loading state
-    dispatch(setLoading(true));
+    dispatch(setLoading(true))
 
     try {
       // Call API
@@ -76,18 +67,18 @@ export function ChatInput() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          message: data.message.trim(),
+          message: messageText.trim(),
           personas: selectedPersonas,
           apiKey,
           personalityTone,
           temperature,
         }),
-      });
+      })
 
-      const result = await response.json();
+      const result = await response.json()
 
       if (!response.ok) {
-        throw new Error(result.error || "Failed to get AI response");
+        throw new Error(result.error || "Failed to get AI response")
       }
 
       // Add AI response
@@ -96,43 +87,47 @@ export function ChatInput() {
         content: result.response,
         sender: "ai",
         timestamp: new Date(),
-      };
+      }
 
-      dispatch(addMessage(aiMessage));
+      dispatch(addMessage(aiMessage))
     } catch (error) {
-      console.error("Chat error:", error);
-      setError(
-        error instanceof Error ? error.message : "Failed to send message"
-      );
+      console.error("Chat error:", error)
+      setError(error instanceof Error ? error.message : "Failed to send message")
 
       // Add error message to chat
       const errorMessage: ChatMessage = {
         id: `msg-${Date.now() + 1}`,
-        content: `Sorry, I encountered an error: ${
-          error instanceof Error ? error.message : "Unknown error"
-        }`,
+        content: `Sorry, I encountered an error: ${error instanceof Error ? error.message : "Unknown error"}`,
         sender: "ai",
         timestamp: new Date(),
-      };
-      dispatch(addMessage(errorMessage));
+      }
+      dispatch(addMessage(errorMessage))
     } finally {
-      dispatch(setLoading(false));
+      dispatch(setLoading(false))
     }
-  };
+  }
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
+    const file = event.target.files?.[0]
     if (file && file.type.startsWith("image/")) {
-      setImageFile(file);
+      setImageFile(file)
     }
-  };
+  }
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const value = event.target.value
+    setInputValue(value)
+    setValue("message", value)
+  }
 
   const handleKeyDown = (event: React.KeyboardEvent) => {
     if (event.key === "Enter" && !event.shiftKey) {
-      event.preventDefault();
-      handleSubmit(onSubmit)();
+      event.preventDefault()
+      handleSubmit(onSubmit)()
     }
-  };
+  }
+
+  const isButtonDisabled = (!inputValue.trim() && !imageFile) || isLoading
 
   return (
     <div className="border-t border-border bg-card p-4">
@@ -153,15 +148,8 @@ export function ChatInput() {
               alt="Upload preview"
               className="w-12 h-12 object-cover rounded"
             />
-            <span className="text-sm text-foreground flex-1">
-              {imageFile.name}
-            </span>
-            <Button
-              type="button"
-              variant="ghost"
-              size="sm"
-              onClick={() => setImageFile(null)}
-            >
+            <span className="text-sm text-foreground flex-1">{imageFile.name}</span>
+            <Button type="button" variant="ghost" size="sm" onClick={() => setImageFile(null)}>
               Remove
             </Button>
           </div>
@@ -171,19 +159,15 @@ export function ChatInput() {
           <div className="flex-1 relative">
             <Textarea
               {...register("message")}
+              value={inputValue}
+              onChange={handleInputChange}
               placeholder="Start typing your message..."
               className="min-h-[60px] max-h-32 resize-none pr-12"
               onKeyDown={handleKeyDown}
               disabled={isLoading}
             />
             <div className="absolute bottom-2 right-2 flex gap-1">
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept="image/*"
-                onChange={handleImageUpload}
-                className="hidden"
-              />
+              <input ref={fileInputRef} type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
               <Button
                 type="button"
                 variant="ghost"
@@ -209,7 +193,7 @@ export function ChatInput() {
           </div>
           <Button
             type="submit"
-            disabled={(!message?.trim() && !imageFile) || isLoading}
+            disabled={isButtonDisabled}
             className="bg-orange-500 hover:bg-orange-600 text-white px-6"
           >
             {isLoading ? (
@@ -226,5 +210,5 @@ export function ChatInput() {
         </div>
       </form>
     </div>
-  );
+  )
 }
