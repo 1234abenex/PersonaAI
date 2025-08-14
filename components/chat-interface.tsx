@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { useAppSelector } from "@/lib/hooks/redux";
+import { useAppSelector } from "@/hooks/redux";
 import { ChatSidebar } from "@/components/chat-sidebar";
 import { ChatMain } from "@/components/chat-main";
 import { ChatHeader } from "@/components/chat-header";

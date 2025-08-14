@@ -1,6 +1,6 @@
 "use client";
 
-import { useAppSelector, useAppDispatch } from "@/lib/hooks/redux";
+import { useAppSelector, useAppDispatch } from "@/hooks/redux";
 import {
   updateMessageReaction,
   setRegeneratingMessage,

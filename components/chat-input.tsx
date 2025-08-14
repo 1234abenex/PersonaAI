@@ -4,7 +4,7 @@ import type React from "react";
 
 import { useState, useRef } from "react";
 import { useForm } from "react-hook-form";
-import { useAppSelector, useAppDispatch } from "@/lib/hooks/redux";
+import { useAppSelector, useAppDispatch } from "@/hooks/redux";
 import {
   addMessage,
   setLoading,

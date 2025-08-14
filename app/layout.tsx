@@ -26,7 +26,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://ffpchat.com"),
+  metadataBase: new URL("https://ffpchat.vercel.app"),
   title: "FFP CHAT - Free Forever Chat",
   description:
     "Personal AI chatbot with custom personas using your own Gemini API key. Privacy-focused, locally stored, and completely free.",
@@ -51,7 +51,7 @@ export const metadata: Metadata = {
     title: "FFP CHAT - Free Forever Chat",
     description:
       "Your personal AI chatbot with custom personas using your own Gemini API key. 100% private and free forever.",
-    url: "https://ffpchat.com",
+    url: "https://ffpchat.vercel.app",
     siteName: "FFP CHAT",
     images: [{ url: "/og-image.png", width: 1200, height: 630 }],
     type: "website",

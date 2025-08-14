@@ -1,7 +1,18 @@
 "use client";
 
-import { useState, useMemo, lazy, Suspense } from "react";
-import { useAppSelector, useAppDispatch } from "@/lib/hooks/redux";
+import {
+  useState,
+  useMemo,
+  lazy,
+  Suspense,
+  AwaitedReactNode,
+  JSXElementConstructor,
+  Key,
+  ReactElement,
+  ReactNode,
+  ReactPortal,
+} from "react";
+import { useAppSelector, useAppDispatch } from "@/hooks/redux";
 import {
   setSelectedPersonas,
   setPersonalityTone,
@@ -33,8 +44,10 @@ const ApiKeySetup = lazy(() =>
 export function PersonaSetup() {
   const dispatch = useAppDispatch();
   const { selectedPersonas, personalityTone, searchQuery, selectedCategory } =
-    useAppSelector((state) => state.persona);
-  const { apiKey } = useAppSelector((state) => state.settings);
+    useAppSelector((state: { persona: any }) => state.persona);
+  const { apiKey } = useAppSelector(
+    (state: { settings: any }) => state.settings
+  );
 
   const [step, setStep] = useState<"persona" | "tone" | "apikey">("persona");
 
@@ -65,14 +78,16 @@ export function PersonaSetup() {
   }, [selectedCategory, searchQuery]);
 
   const selectedPersonasMap = useMemo(() => {
-    return new Set(selectedPersonas.map((p) => p.id));
+    return new Set(selectedPersonas.map((p: { id: any }) => p.id));
   }, [selectedPersonas]);
 
   const handlePersonaToggle = (persona: (typeof personas)[0]) => {
     const isSelected = selectedPersonasMap.has(persona.id);
     if (isSelected) {
       dispatch(
-        setSelectedPersonas(selectedPersonas.filter((p) => p.id !== persona.id))
+        setSelectedPersonas(
+          selectedPersonas.filter((p: { id: string }) => p.id !== persona.id)
+        )
       );
     } else {
       dispatch(setSelectedPersonas([...selectedPersonas, persona]));
@@ -295,15 +310,35 @@ export function PersonaSetup() {
                   Selected Personas ({selectedPersonas.length})
                 </h3>
                 <div className="flex flex-wrap gap-2">
-                  {selectedPersonas.map((persona) => (
-                    <Badge
-                      key={persona.id}
-                      variant="secondary"
-                      className="bg-orange-100 text-orange-800 border-orange-200 text-xs sm:text-sm"
-                    >
-                      {persona.basic_information.name}
-                    </Badge>
-                  ))}
+                  {selectedPersonas.map(
+                    (persona: {
+                      id: Key | null | undefined;
+                      basic_information: {
+                        name:
+                          | string
+                          | number
+                          | bigint
+                          | boolean
+                          | ReactElement<
+                              any,
+                              string | JSXElementConstructor<any>
+                            >
+                          | Iterable<ReactNode>
+                          | ReactPortal
+                          | Promise<AwaitedReactNode>
+                          | null
+                          | undefined;
+                      };
+                    }) => (
+                      <Badge
+                        key={persona.id}
+                        variant="secondary"
+                        className="bg-orange-100 text-orange-800 border-orange-200 text-xs sm:text-sm"
+                      >
+                        {persona.basic_information.name}
+                      </Badge>
+                    )
+                  )}
                 </div>
               </div>
             )}

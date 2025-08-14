@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useAppSelector } from "@/lib/hooks/redux";
+import { useAppSelector } from "@/hooks/redux";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";

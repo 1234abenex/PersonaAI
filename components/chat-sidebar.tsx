@@ -3,7 +3,7 @@
 import type React from "react";
 
 import { useMemo } from "react";
-import { useAppSelector, useAppDispatch } from "@/lib/hooks/redux";
+import { useAppSelector, useAppDispatch } from "@/hooks/redux";
 import { resetPersonaState } from "@/lib/store/slices/personaSlice";
 import { clearApiKey } from "@/lib/store/slices/settingsSlice";
 import {

@@ -1,7 +1,7 @@
 "use client";
 
 import { Suspense, lazy } from "react";
-import { useAppSelector } from "@/lib/hooks/redux";
+import { useAppSelector } from "@/hooks/redux";
 import { LoadingSpinner } from "@/components/loading-spinner";
 import { ErrorBoundary } from "@/components/error-boundary";
 

@@ -1,21 +1,33 @@
 "use client";
 
-import { useAppSelector, useAppDispatch } from "@/lib/hooks/redux";
+import { useAppSelector, useAppDispatch } from "@/hooks/redux";
 import { addMessage, startNewChat } from "@/lib/store/slices/chatSlice";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Sparkles, MessageCircle, Zap, Shield } from "lucide-react";
 import type { ChatMessage } from "@/types/personas.types";
-import { useState } from "react";
+import {
+  AwaitedReactNode,
+  JSXElementConstructor,
+  Key,
+  ReactElement,
+  ReactNode,
+  ReactPortal,
+  useState,
+} from "react";
 
 export function ChatWelcome() {
   const dispatch = useAppDispatch();
   const { selectedPersonas, personalityTone } = useAppSelector(
-    (state) => state.persona
+    (state: { persona: any }) => state.persona
   );
-  const { currentChatId, chatHistory } = useAppSelector((state) => state.chat);
-  const { apiKey } = useAppSelector((state) => state.settings);
+  const { currentChatId, chatHistory } = useAppSelector(
+    (state: { chat: any }) => state.chat
+  );
+  const { apiKey } = useAppSelector(
+    (state: { settings: any }) => state.settings
+  );
   const [loadingStarter, setLoadingStarter] = useState<string | null>(null);
 
   const suggestions = [
@@ -131,48 +143,74 @@ export function ChatWelcome() {
               Active Personas ({selectedPersonas.length})
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {selectedPersonas.map((persona) => (
-                <div
-                  key={persona.id}
-                  className="flex items-start gap-3 p-4 bg-muted rounded-lg"
-                >
-                  <Avatar className="w-12 h-12">
-                    <AvatarImage
-                      src={
-                        persona.basic_information.avatar || "/placeholder.svg"
-                      }
-                      alt={persona.basic_information.name}
-                    />
-                    <AvatarFallback className="bg-orange-100 text-orange-600 font-medium">
-                      {persona.basic_information.name
-                        .split(" ")
-                        .map((n) => n[0])
-                        .join("")}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div className="flex-1 min-w-0">
-                    <h3 className="font-semibold text-foreground">
-                      {persona.basic_information.name}
-                    </h3>
-                    <p className="text-sm text-muted-foreground mb-2">
-                      {persona.basic_information.occupation}
-                    </p>
-                    <div className="flex flex-wrap gap-1">
-                      {persona.knowledge_base.topics_of_expertise
-                        .slice(0, 3)
-                        .map((topic) => (
-                          <Badge
-                            key={topic}
-                            variant="secondary"
-                            className="text-xs"
-                          >
-                            {topic}
-                          </Badge>
-                        ))}
+              {selectedPersonas.map(
+                (persona: {
+                  id: Key | null | undefined;
+                  basic_information: {
+                    avatar: any;
+                    name:
+                      | string
+                      | number
+                      | bigint
+                      | boolean
+                      | ReactElement<any, string | JSXElementConstructor<any>>
+                      | Iterable<ReactNode>
+                      | Promise<AwaitedReactNode>
+                      | null
+                      | undefined;
+                    occupation:
+                      | string
+                      | number
+                      | bigint
+                      | boolean
+                      | ReactElement<any, string | JSXElementConstructor<any>>
+                      | Iterable<ReactNode>
+                      | ReactPortal
+                      | Promise<AwaitedReactNode>
+                      | null
+                      | undefined;
+                  };
+                  knowledge_base: { topics_of_expertise: any[] };
+                }) => (
+                  <div
+                    key={persona.id}
+                    className="flex items-start gap-3 p-4 bg-muted rounded-lg"
+                  >
+                    <Avatar className="w-12 h-12">
+                      <AvatarImage
+                        src={
+                          persona.basic_information.avatar || "/placeholder.svg"
+                        }
+                        alt={persona.basic_information.name as string}
+                      />
+                      <AvatarFallback className="bg-orange-100 text-orange-600 font-medium">
+                        {persona.basic_information.name}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-semibold text-foreground">
+                        {persona.basic_information.name}
+                      </h3>
+                      <p className="text-sm text-muted-foreground mb-2">
+                        {persona.basic_information.occupation}
+                      </p>
+                      <div className="flex flex-wrap gap-1">
+                        {persona.knowledge_base.topics_of_expertise
+                          .slice(0, 3)
+                          .map((topic) => (
+                            <Badge
+                              key={topic}
+                              variant="secondary"
+                              className="text-xs"
+                            >
+                              {topic}
+                            </Badge>
+                          ))}
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                )
+              )}
             </div>
           </CardContent>
         </Card>

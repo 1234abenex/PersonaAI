@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { useAppSelector } from "@/lib/hooks/redux";
+import { useAppSelector } from "@/hooks/redux";
 import { ChatMessages } from "@/components/chat-messages";
 import { ChatInput } from "@/components/chat-input";
 import { ChatWelcome } from "@/components/chat-welcome";
