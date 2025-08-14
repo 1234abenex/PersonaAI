@@ -150,3 +150,29 @@ export interface Persona {
     roleplay_mode: boolean;
   };
 }
+
+export type PersonalityTone = "default" | "funny" | "advice" | "educational";
+
+export interface ChatMessage {
+  id: string;
+  content: string;
+  sender: "user" | "ai";
+  timestamp: Date;
+  personaId?: string;
+}
+
+export interface ChatState {
+  messages: ChatMessage[];
+  selectedPersonas: Persona[];
+  personalityTone: PersonalityTone;
+  isLoading: boolean;
+  apiKey: string;
+}
+
+export interface Category {
+  id: string;
+  name: string;
+  description: string;
+  icon: string;
+  personas: string[];
+}
