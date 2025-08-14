@@ -15,7 +15,7 @@ import { PersonaCard } from "@/components/persona-card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Search, Sparkles } from "lucide-react";
+import { Github, Linkedin, Search, Sparkles, Twitter } from "lucide-react";
 import { LoadingSpinner } from "@/components/loading-spinner";
 import type { PersonalityTone } from "@/types/personas.types";
 
@@ -99,7 +99,7 @@ export function PersonaSetup() {
     <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="border-b border-border bg-card">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
+        <div className="container mx-auto flex items-center justify-between  px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center">
               <Sparkles className="w-4 h-4 sm:w-6 sm:h-6 text-white" />
@@ -112,6 +112,54 @@ export function PersonaSetup() {
                 Free Forever Chat - Personal AI with Custom Personas
               </p>
             </div>
+          </div>
+          {/* Social Links */}
+          <div className="flex gap-1 sm:gap-2">
+            <Button
+              variant="ghost"
+              size="sm"
+              asChild
+              className="text-sidebar-foreground/60 hover:text-orange-500 h-8 w-8 p-0"
+            >
+              <a
+                href="https://github.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="GitHub"
+              >
+                <Github className="w-4 h-4" />
+              </a>
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              asChild
+              className="text-sidebar-foreground/60 hover:text-orange-500 h-8 w-8 p-0"
+            >
+              <a
+                href="https://twitter.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Twitter"
+              >
+                <Twitter className="w-4 h-4" />
+              </a>
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              asChild
+              className="text-sidebar-foreground/60 hover:text-orange-500 h-8 w-8 p-0"
+            >
+              <a
+                href="https://linkedin.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn"
+              >
+                <Linkedin className="w-4 h-4" />
+              </a>
+            </Button>
           </div>
         </div>
       </header>
