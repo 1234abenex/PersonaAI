@@ -15,7 +15,17 @@ const apiKeySchema = z.object({
   apiKey: z
     .string()
     .min(1, "API key is required")
-    .min(10, "API key seems too short"),
+    .regex(
+      /^AIza[0-9A-Za-z-_]{35}$/,
+      "Please enter a valid Gemini API key (should start with 'AIza' and be 39 characters long)"
+    )
+    .or(
+      z
+        .string()
+        .min(30, "API key must be at least 30 characters long")
+        .max(50, "API key seems too long")
+        .regex(/^[A-Za-z0-9\-_]+$/, "API key contains invalid characters")
+    ),
 });
 
 type ApiKeyForm = z.infer<typeof apiKeySchema>;
