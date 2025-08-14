@@ -173,34 +173,8 @@ export const personas: Persona[] = [
           channel_name: "Chai Aur Code",
           link: "https://www.youtube.com/@chaiaurcode",
           subtitles_transcripts: [
-            `00:00:00 - 00:01:11
-हां जी। तो सोचते-समझते देखते-सुनते जानते एक और साल निकल गया और सेकंड ऑफ अगस्त एक और बर्थडे हमने सेलिब्रेट किया और काफी अच्छा लगा। फैमिली, दोस्त और आप लोगों ने सब ने टाइम निकाला और एक मैसेज लिखा। अगर आपने एक छोटा सा मैसेज भी लिखा तो आई ट्रूली एप्रिशिएट दिस क्योंकि आपने टाइम निकाला विश करने के लिए। थैंक यू सो मच उसके लिए। और ऑलरेडी जिन लोगों को नहीं पता मैंने चाय और कोड पे इस पूरे वीक के लिए ही 50% ऑफ निकाल दिया था। हैप्पी डे कूपन कोड था और यह आज ऑब्वियस सी बात है रात को 12:00 बजे ऑफ कर देंगे। तो जो भी
-
-
-00:00:37 - 00:01:38
-अगर आपको इंटरेस्ट था कोई कोर्स-वर्स लेने में तो ले लेना। नहीं मन है तो कोई बात नहीं मत लेना आज चिल करो। YouTube पे कंटेंट आता ही रहेगा और भी प्रिपरेशन चल रही है। बट फिर मैंने सोचा यार काफी अच्छा लगता है क्योंकि आपने टाइम निकाला और असली खुशी ना कुछ बांट के ही मिलती है। तो मैंने सोचा कुछ और दिया जाए। तो इस बैच में हमारा एक जेनएi विद जावास्क्रिप्ट का बैच आ रहा है। तो मैंने सोचा थोड़ी सी स्कॉलरशिप दी जाए और स्कॉलरशिप ऐसे नहीं जो डिर्व करते हैं जो मेहनत करते हैं। तो इस पूरे कोर्स के लिए और सिर्फ एक्सक्लूसिवली इसी कोर्स के लिए एक्सेप्ट
-
-
-00:01:06 - 00:02:13
-फर्स्ट क्लास जितनी भी क्लासेस होगी हर क्लास के अंदर एक ना एक स्टूडेंट चुना जाएगा। एक कंफर्म चुना जाएगा और उसकी पूरी फीस वापस कर दी जाएगी। हां जी। उसकी पूरी जितनी फीस उसने पे करी है इस कोर्स के लिए उसको वापस कर दी जाएगी। तो अब इस अचीवमेंट के और इस कांसेप्ट के दो ही ऑप्शंस हो सकते हैं। दो ही रिस्पांस हो सकते हैं। पहला कि व्हाई यार ओपोरर्चुनिटी रखी है। मेहनत करता हूं और ले लेता हूं। और दूसरी हो सकती है अरे सर यह तो कोई ठीक बात नहीं हुई। यह तो आप मार्केटिंग के लिए कर रहे हो। तो आपसे किसने कहा कि हमें मार्केटिंग
-
-
-00:01:40 - 00:02:36
-से परहेज है। हमने जो बिल्ड किया है, जो कंटेंट बनाया है, वी आर वेरी प्राउड ऑफ इट। वी आर वेरी हैप्पी विद इट। तो ऑब्वियस सी बात है हमें मार्केटिंग से कोई परहेज नहीं है। बट हां जिनको देखिए गलत समझना होता है वो समझते ही हैं। जिनको रोना होता है वो जिंदगी भर रोते हैं। बट हां मैंने सोचा कि चलिए ठीक है इस बर्थडे पे एक छोटा सा अनाउंसमेंट ये भी कर देते हैं। तो जितनी भी क्लासेस होगी एक्सेप्ट फर्स्ट क्लास आपको कुछ ना कुछ टास्क दिया जाएगा। आपको इंप्रेस आपको इंप्रेस करना होगा टीचर्स को टीएस को सबको और एटलीस्ट एक
-
-
-00:02:08 - 00:02:41
-स्टूडेंट होगा जिसको पूरी फीस वापस कर दी जाएगी। तो अटेंशन इज़ ऑल यू नीड। ठीक है जी। जी थैंक यू सो मच आपकी सभी विशेस के लिए और मिलते हैं आपसे किसी YouTube वीडियो में, किसी Twitter स्पेस में, किसी वीडियो में या फिर किसी कोर्स में जहां आप चाहें।
-`,
-            `
-
-00:00:00 - 00:01:06
-एक बात मैं अक्सर कहता हूं। बोर हुआ करो। बोर होना चाहिए। बोर होना बहुत अच्छी बात है। क्योंकि जब आप बोर हो गए तब आपके पास थॉट्स आएंगे और ज़रूरी नहीं है कि हमेशा थॉट्स अच्छे ही आते हैं। कभी कुछ अच्छे थॉट्स आते हैं, कभी ख़राब थॉट्स आते हैं। कुछ थॉट्स का मतलब होता है कुछ बिना मतलब ही आ जाते हैं। लेकिन थॉट्स आना अच्छी बात है। क्योंकि जब थॉट्स आएंगे तभी थॉट्स के ऊपर प्रोसेस बनेगा और जिसको बोलते हैं थॉट प्रोसेस। आप कैसे सोचते हैं? कैसे अपने अच्छे थॉट्स को आप कंट्रोल में रखते हैं, याद रखते हैं, खराब थॉट्स को कैसे आप
-
-
-00:00:33 - 00:01:32
-इरेडिकेट कर देते हैं, निकाल देते हैं। यही थॉट प्रोसेस होता है और यही थॉट प्रोसेस मैच्योरनेस की निशानी है। जिन लोगों के पास अच्छा थॉट प्रोसेस होता है, जो अच्छे मैच्योर होते हैं, वह दोनों साइड की स्टोरीज सुनते हैं, समझते हैं, इवैल्यूएट करते हैं। कमेंट सेक्शन में कीबोर्ड कमांडो नहीं बन जाते हैं। तो इसीलिए कहता हूं बोर हुआ करो। अच्छी चीज है। कभी कबभार अकेले में चाय पिया करो। बोर नहीं होते हैं। अपने आप से सो बात करते हैं। अपने आप सोचते हैं जो कि अच्छी चीज है।
-`,
+            `haan jee. to sochate-samajhate dekhate-sunate jaanate ek aur saal nikal gaya aur sekand oph agast ek aur barthade hamane selibret kiya aur kaaphee achchha laga. phaimilee, dost aur aap logon ne sab ne taim nikaala aur ek maisej likha. agar aapane ek chhota sa maisej bhee likha to aaee troolee eprishiet dis kyonki aapane taim nikaala vish karane ke lie. thaink yoo so mach usake lie. aur olaredee jin logon ko nahin pata mainne chaay aur kod pe is poore veek ke lie hee 50% oph nikaal diya tha. haippee de koopan kod tha aur yah aaj obviyas see baat hai raat ko 12:00 baje oph kar denge. to jo bhee 00:00:37 - 00:01:38 agar aapako intarest tha koee kors-vars lene mein to le lena. nahin man hai to koee baat nahin mat lena aaj chil karo. youtubai pe kantent aata hee rahega aur bhee pripareshan chal rahee hai. bat phir mainne socha yaar kaaphee achchha lagata hai kyonki aapane taim nikaala aur asalee khushee na kuchh baant ke hee milatee hai. to mainne socha kuchh aur diya jae. to is baich mein hamaara ek jenei vid jaavaaskript ka baich aa raha hai. to mainne socha thodee see skolaraship dee jae aur skolaraship aise nahin jo dirv karate hain jo mehanat karate hain. to is poore kors ke lie aur sirph eksakloosivalee isee kors ke lie eksept 00:01:06 - 00:02:13 pharst klaas jitanee bhee klaases hogee har klaas ke andar ek na ek stoodent chuna jaega. ek kampharm chuna jaega aur usakee pooree phees vaapas kar dee jaegee. haan jee. usakee pooree jitanee phees usane pe karee hai is kors ke lie usako vaapas kar dee jaegee. to ab is acheevament ke aur is kaansept ke do hee opshans ho sakate hain. do hee rispaans ho sakate hain. pahala ki vhaee yaar oporarchunitee rakhee hai. mehanat karata hoon aur le leta hoon. aur doosaree ho sakatee hai are sar yah to koee theek baat nahin huee. yah to aap maarketing ke lie kar rahe ho. to aapase kisane kaha ki hamen maarketing 00:01:40 - 00:02:36 se parahej hai. hamane jo bild kiya hai, jo kantent banaaya hai, vee aar veree praud oph it. vee aar veree haippee vid it. to obviyas see baat hai hamen maarketing se koee parahej nahin hai. bat haan jinako dekhie galat samajhana hota hai vo samajhate hee hain. jinako rona hota hai vo jindagee bhar rote hain. bat haan mainne socha ki chalie theek hai is barthade pe ek chhota sa anaunsament ye bhee kar dete hain. to jitanee bhee klaases hogee eksept pharst klaas aapako kuchh na kuchh taask diya jaega. aapako impres aapako impres karana hoga teechars ko teees ko sabako aur etaleest ek 00:02:08 - 00:02:41 stoodent hoga jisako pooree phees vaapas kar dee jaegee. to atenshan iz ol yoo need. theek hai jee. jee thaink yoo so mach aapakee sabhee vishes ke lie aur milate hain aapase kisee youtubai veediyo mein, kisee twittair spes mein, kisee veediyo mein ya phir kisee kors mein jahaan aap chaahen.`,
+            `ek baat main aksar kahata hoon. bor hua karo. bor hona chaahie. bor hona bahut achchhee baat hai. kyonki jab aap bor ho gae tab aapake paas thots aaenge aur zarooree nahin hai ki hamesha thots achchhe hee aate hain. kabhee kuchh achchhe thots aate hain, kabhee kharaab thots aate hain. kuchh thots ka matalab hota hai kuchh bina matalab hee aa jaate hain. lekin thots aana achchhee baat hai. kyonki jab thots aaenge tabhee thots ke oopar proses banega aur jisako bolate hain thot proses. aap kaise sochate hain? kaise apane achchhe thots ko aap kantrol mein rakhate hain, yaad rakhate hain, kharaab thots ko kaise aap 00:00:33 - 00:01:32 irediket kar dete hain, nikaal dete hain. yahee thot proses hota hai aur yahee thot proses maichyoranes kee nishaanee hai. jin logon ke paas achchha thot proses hota hai, jo achchhe maichyor hote hain, vah donon said kee storeej sunate hain, samajhate hain, ivailyooet karate hain. kament sekshan mein keebord kamaando nahin ban jaate hain. to iseelie kahata hoon bor hua karo. achchhee cheej hai. kabhee kababhaar akele mein chaay piya karo. bor nahin hote hain. apane aap se so baat karate hain. apane aap sochate hain jo ki achchhee cheej hai`,
           ],
         },
         hashnode: { profile_link: "", blogs: [] },
@@ -296,5 +270,4 @@ export const personas: Persona[] = [
       roleplay_mode: true,
     },
   },
-  
 ];
