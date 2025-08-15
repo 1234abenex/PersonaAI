@@ -4,6 +4,7 @@ import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/providers";
 import { Toaster } from "@/components/ui/toaster";
+import { Analytics } from "@vercel/analytics/next";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -76,6 +77,7 @@ export default function RootLayout({
         className={`${inter.variable} ${playfair.variable} font-sans antialiased`}
       >
         <Providers>{children}</Providers>
+        <Analytics />
         <Toaster />
       </body>
     </html>
