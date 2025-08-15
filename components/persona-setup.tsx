@@ -137,7 +137,7 @@ export function PersonaSetup() {
               className="text-sidebar-foreground/60 hover:text-orange-500 h-8 w-8 p-0"
             >
               <a
-                href="https://github.com"
+                href="https://github.com/BCAPATHSHALA/PersonaAI"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="GitHub"
@@ -152,7 +152,7 @@ export function PersonaSetup() {
               className="text-sidebar-foreground/60 hover:text-orange-500 h-8 w-8 p-0"
             >
               <a
-                href="https://twitter.com"
+                href="https://x.com/manojofficialmj"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Twitter"
@@ -167,7 +167,7 @@ export function PersonaSetup() {
               className="text-sidebar-foreground/60 hover:text-orange-500 h-8 w-8 p-0"
             >
               <a
-                href="https://linkedin.com"
+                href="https://linkedin.com/in/manojofficialmj"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="LinkedIn"
